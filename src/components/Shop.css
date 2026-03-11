@@ -1,0 +1,163 @@
+.shop-page {
+  @apply min-h-screen bg-slate-50;
+}
+
+.shop-wrapper {
+  @apply max-w-5xl mx-auto px-2 sm:px-5 lg:px-6 py-4 sm:py-6;
+}
+
+.shop-header {
+  @apply mb-8;
+}
+
+.shop-title {
+  @apply text-[1.35rem] sm:text-3xl font-bold text-slate-900 mb-4 sm:mb-5;
+}
+
+.shop-filter-card {
+  @apply bg-white rounded-xl shadow-md p-2.5 sm:p-5 mb-4 sm:mb-5;
+}
+
+.shop-search-row {
+  @apply flex flex-col md:flex-row gap-4;
+}
+
+.shop-search-input-wrapper {
+  @apply flex-1 relative;
+}
+
+.shop-search-icon {
+  @apply absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5;
+}
+
+.shop-search-input {
+  @apply w-full pl-11 sm:pl-12 pr-3 sm:pr-4 py-2 sm:py-3 text-[13px] sm:text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent;
+}
+
+.shop-filter {
+  @apply flex items-center gap-2;
+}
+
+.shop-filter-icon {
+  @apply w-5 h-5 text-slate-600;
+}
+
+.shop-filter-select {
+  @apply px-3 sm:px-4 py-2 sm:py-3 text-[13px] sm:text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent;
+}
+
+.shop-product-count {
+  @apply text-slate-500 text-sm;
+}
+
+.shop-grid {
+  @apply grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4;
+}
+
+.shop-card {
+  @apply bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition w-full;
+}
+
+.shop-card-image {
+  @apply relative h-[9.5rem] sm:h-44 bg-slate-50 overflow-hidden flex items-center justify-center;
+}
+
+.shop-card-img {
+  @apply w-full h-full max-w-full max-h-full object-contain transition duration-300 group-hover:scale-105;
+}
+
+.shop-card-placeholder {
+  @apply w-full h-full flex items-center justify-center text-slate-400;
+}
+
+.shop-card-discount {
+  @apply absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold;
+}
+
+.shop-card-body {
+  @apply p-2 sm:p-3;
+}
+
+.shop-card-brand {
+  @apply text-sm font-semibold text-slate-500 mb-1;
+}
+
+.shop-card-title {
+  @apply text-[13px] sm:text-base font-semibold text-slate-900 mb-2 line-clamp-2;
+}
+
+.shop-card-price-row {
+  @apply flex items-center gap-2 mb-2;
+}
+
+.shop-card-price-primary {
+  @apply text-base sm:text-xl font-bold text-slate-900;
+}
+
+.shop-card-price-secondary {
+  @apply text-sm text-slate-400 line-through;
+}
+
+.shop-size-select-wrapper {
+  @apply mb-2;
+}
+
+.shop-size-select {
+  @apply w-full px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent;
+}
+
+.shop-add-button {
+  @apply w-full bg-slate-900 text-white py-1.5 sm:py-2 text-[13px] sm:text-base rounded-lg font-semibold hover:bg-slate-800 transition flex items-center justify-center gap-1.5 sm:gap-2;
+}
+
+.shop-empty-state {
+  @apply text-center py-16;
+}
+
+.shop-empty-message {
+  @apply text-xl text-slate-600;
+}
+
+.dark .shop-page {
+  @apply bg-slate-950;
+}
+
+.dark .shop-title,
+.dark .shop-card-title,
+.dark .shop-card-price-primary {
+  @apply text-slate-100;
+}
+
+.dark .shop-filter-card,
+.dark .shop-card {
+  @apply bg-slate-900 shadow-slate-950;
+}
+
+.dark .shop-search-input,
+.dark .shop-filter-select,
+.dark .shop-size-select {
+  @apply bg-slate-800 border-slate-700 text-slate-100;
+}
+
+.dark .shop-card-brand,
+.dark .shop-product-count,
+.dark .shop-empty-message {
+  @apply text-slate-300;
+}
+
+.dark .shop-card-price-secondary {
+  @apply text-slate-500;
+}
+
+.dark .shop-add-button {
+  @apply bg-slate-700 hover:bg-slate-600 border border-slate-500 text-white;
+  background-color: #334155;
+}
+
+.dark .shop-add-button:hover {
+  background-color: #475569;
+}
+
+.dark .shop-card-image {
+  @apply bg-slate-800;
+}
