@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { Product } from '../types';
 import { getProductImageUrl } from '../lib/productImages';
@@ -17,15 +17,7 @@ export default function Shop({ onAddToCart }: ShopProps) {
   const [selectedBrand, setSelectedBrand] = useState('all');
   const [selectedSize, setSelectedSize] = useState<{ [key: string]: string }>({});
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
-  useEffect(() => {
-    filterProducts();
-  }, [searchQuery, selectedBrand, products]);
-
-  const loadProducts = async () => {
+  const loadProducts = useCallback(async () => {
     const { data } = await supabase
       .from('products')
       .select('*')
@@ -35,9 +27,9 @@ export default function Shop({ onAddToCart }: ShopProps) {
       setProducts(data);
       setFilteredProducts(data);
     }
-  };
+  }, []);
 
-  const filterProducts = () => {
+  const filterProducts = useCallback(() => {
     let filtered = products;
 
     if (searchQuery) {
@@ -54,7 +46,15 @@ export default function Shop({ onAddToCart }: ShopProps) {
     }
 
     setFilteredProducts(filtered);
-  };
+  }, [products, searchQuery, selectedBrand]);
+
+  useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
+
+  useEffect(() => {
+    filterProducts();
+  }, [filterProducts]);
 
   const handleAddToCart = (product: Product) => {
     const size = selectedSize[product.id];

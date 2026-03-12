@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { getProductImageUrl } from '../lib/productImages';
 import { useAuth } from '../contexts/AuthContext';
@@ -11,13 +11,7 @@ export default function Shipping() {
   const [orderItems, setOrderItems] = useState<{ [key: string]: OrderItem[] }>({});
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user) {
-      loadOrders();
-    }
-  }, [user]);
-
-  const loadOrders = async () => {
+  const loadOrders = useCallback(async () => {
     setLoading(true);
 
     const { data: ordersData } = await supabase
@@ -42,7 +36,13 @@ export default function Shipping() {
     }
 
     setLoading(false);
-  };
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (user) {
+      loadOrders();
+    }
+  }, [user, loadOrders]);
 
   const getStatusColor = (status: string) => {
     switch (status) {

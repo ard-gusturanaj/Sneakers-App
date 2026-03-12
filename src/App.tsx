@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { supabase } from './lib/supabase';
-import { Product, CartItem } from './types';
+import { Product } from './types';
 import Login from './components/Login';
 import Register from './components/Register';
 import Navigation from './components/Navigation';
@@ -18,18 +18,7 @@ function AppContent() {
   const [cartItemCount, setCartItemCount] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
 
-  useEffect(() => {
-    if (user) {
-      loadCartCount();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDarkMode);
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-  }, [isDarkMode]);
-
-  const loadCartCount = async () => {
+  const loadCartCount = useCallback(async () => {
     if (!user) return;
 
     const { data } = await supabase
@@ -41,7 +30,18 @@ function AppContent() {
       const total = data.reduce((sum, item) => sum + item.quantity, 0);
       setCartItemCount(total);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      loadCartCount();
+    }
+  }, [user, loadCartCount]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDarkMode);
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
 
   const handleAddToCart = async (product: Product, size: string) => {
     if (!user) return;

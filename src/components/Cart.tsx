@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { getProductImageUrl } from '../lib/productImages';
 import { CartItem } from '../types';
@@ -16,13 +16,7 @@ export default function Cart({ onCheckout, cartItems, onUpdateCart }: CartProps)
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user) {
-      loadCartItems();
-    }
-  }, [user, cartItems]);
-
-  const loadCartItems = async () => {
+  const loadCartItems = useCallback(async () => {
     setLoading(true);
     const { data } = await supabase
       .from('cart_items')
@@ -33,7 +27,13 @@ export default function Cart({ onCheckout, cartItems, onUpdateCart }: CartProps)
       setItems(data as CartItem[]);
     }
     setLoading(false);
-  };
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (user) {
+      loadCartItems();
+    }
+  }, [user, cartItems, loadCartItems]);
 
   const updateQuantity = async (itemId: string, newQuantity: number) => {
     if (newQuantity < 1) return;
@@ -43,13 +43,13 @@ export default function Cart({ onCheckout, cartItems, onUpdateCart }: CartProps)
       .update({ quantity: newQuantity })
       .eq('id', itemId);
 
-    loadCartItems();
+    await loadCartItems();
     onUpdateCart();
   };
 
   const removeItem = async (itemId: string) => {
     await supabase.from('cart_items').delete().eq('id', itemId);
-    loadCartItems();
+    await loadCartItems();
     onUpdateCart();
   };
 

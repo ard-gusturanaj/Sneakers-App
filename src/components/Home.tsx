@@ -79,7 +79,7 @@ export default function Home({ onAddToCart }: HomeProps) {
   };
 
   const scrollRow = (
-    ref: React.RefObject<HTMLDivElement | null>,
+    ref: React.RefObject<HTMLDivElement>,
     direction: 'left' | 'right'
   ) => {
     if (!ref.current) return;
@@ -193,7 +193,7 @@ export default function Home({ onAddToCart }: HomeProps) {
     badgeText: string;
     icon: React.ReactNode;
     products: Product[];
-    scrollRef: React.RefObject<HTMLDivElement | null>;
+    scrollRef: React.RefObject<HTMLDivElement>;
     iconColor?: string;
   }) => (
     <section className="mb-9 md:mb-14">

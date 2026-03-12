@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { CartItem } from '../types';
@@ -25,13 +25,7 @@ export default function Payment({ onSuccess }: PaymentProps) {
 
   const [paypalEmail, setPaypalEmail] = useState('');
 
-  useEffect(() => {
-    if (user) {
-      loadCartItems();
-    }
-  }, [user]);
-
-  const loadCartItems = async () => {
+  const loadCartItems = useCallback(async () => {
     const { data } = await supabase
       .from('cart_items')
       .select('*, product:products(*)')
@@ -40,7 +34,13 @@ export default function Payment({ onSuccess }: PaymentProps) {
     if (data) {
       setCartItems(data as CartItem[]);
     }
-  };
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (user) {
+      loadCartItems();
+    }
+  }, [user, loadCartItems]);
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
